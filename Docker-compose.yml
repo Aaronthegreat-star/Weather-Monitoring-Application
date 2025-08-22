@@ -1,0 +1,33 @@
+# version: "3.8"
+
+services:
+  humidity_service:
+    build:
+      context: ./Humidity_conditions
+      dockerfile: Dockerfile
+    image: weather/humid
+    ports:
+      - "127.0.0.1:5000:8000"
+    env_file:
+      - ./Humidity_conditions/.env
+    volumes:
+      - humidity_data:/app
+  
+  temperature_service:
+    build:
+      context: ./Temperature_conditions
+      dockerfile: Dockerfile
+    # context: ./Temperature_conditions
+    image: weather/temp
+    ports:
+      - "127.0.0.1:5001:8001"
+    env_file:
+      - ./Temperature_conditions/.env
+    volumes:
+      - temperature_data:/app
+
+volumes:
+  humidity_data:
+    driver: local
+  temperature_data:
+    driver: local
